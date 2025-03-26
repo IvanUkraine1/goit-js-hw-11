@@ -8,15 +8,17 @@ import { getPhotos } from './js/pixabay-api';
 let form = document.querySelector(".form");
 let input = document.querySelector('[name="search-text"]');
 let loader = document.querySelector(".loader");
-
+let gallery = document.querySelector(".gallery");
 
 form.addEventListener("submit", (event)=>{
     event.preventDefault();
     if(input.value.trim() === ""){
         // console.log("Заповніть поле пошуку");
+        gallery.innerHTML = "";
         return;
     }
 
+    gallery.innerHTML = "";
     loader.style.display = "block";
 
     getPhotos(input.value).then(response=> {
@@ -25,6 +27,7 @@ form.addEventListener("submit", (event)=>{
         // console.log(response.data)
         drawGallery(response.data.hits);
         } else {
+            gallery.innerHTML = "";
             iziToast.show({
                 message: `Sorry, there are no images matching your ${input.value}. Please try again!`,   
                 backgroundColor:'#EF4040',
